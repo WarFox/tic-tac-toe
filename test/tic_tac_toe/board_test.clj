@@ -3,8 +3,23 @@
             [clojure.test :refer [deftest is testing]]))
 
 (deftest default-board-test
-  (testing "default board is 3x3 nils"
+  (testing "default board of size 3x3 nils"
     (is (= sut/default-board
-           [[nil nil nil]
-            [nil nil nil]
-            [nil nil nil]]))))
+           [[0 0 0]
+            [0 0 0]
+            [0 0 0]]))))
+
+(deftest winner-test
+  (testing "no winner for default board"
+    (is (nil? (sut/winner sut/default-board))))
+
+  (testing "1 wins horizontal"
+    (is (= (sut/winner [[1  1 1]
+                        [0 -1 0]
+                        [-1 0 -1]])
+           1))
+
+    (is (= (sut/winner [[0 -1 0]
+                        [1 1 1]
+                        [1 0 1]])
+           1))))
