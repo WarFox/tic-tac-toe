@@ -20,10 +20,14 @@
 (defn winner
   "Returns winner if there is a winner else returns nil"
   [board]
-  (cond
-    ;; check row
-    (some #{(count board)}  (sum-row board))
-    1
+  (let [sum-r (sum-row board)
+        n     (count board)]
+    (cond
+      ;; check row
+      (some #{n}  sum-r)
+      1
 
-    :else nil))
+      (some #{(- n)} sum-r)
+      -1
 
+      :else nil)))

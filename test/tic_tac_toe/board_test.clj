@@ -9,6 +9,7 @@
             [0 0 0]
             [0 0 0]]))))
 
+
 (deftest winner-test
   (testing "no winner for default board"
     (is (nil? (sut/winner sut/default-board))))
@@ -22,4 +23,13 @@
     (is (= (sut/winner [[0 -1 0]
                         [1 1 1]
                         [1 0 1]])
-           1))))
+           1)))
+
+  (testing "-1 wins horizontal"
+    (is (= -1 (sut/winner [[-1  -1 -1]
+                           [0 1 0]
+                           [1 0 1]])))
+
+    (is (= -1 (sut/winner [[0 1 0]
+                           [-1 -1 -1]
+                           [1 0 1]])))))
