@@ -33,7 +33,8 @@
 
 (deftest winner-test
   (testing "no winner for default board"
-    (is (nil? (sut/winner sut/default-board))))
+    (is (= :no-winner
+           (sut/winner sut/default-board))))
 
   (testing "1 wins horizontal"
     (is (= 1
@@ -57,14 +58,21 @@
 
 (deftest winner-test-vertical
   (testing "1 wins vertical"
+    (is (= 1 (sut/winner [[0 0 1]
+                          [0 -1 1]
+                          [0 -1 1]])))
+
     (is (= 1 (sut/winner [[1 0 -1]
                           [1 -1 0]
                           [1 -1 0]]))))
 
   (testing "-1 wins vertical"
-    (is (= 1 (sut/winner [[1 0 -1]
-                          [1 -1 0]
-                          [1 -1 0]])))))
+    (is (= -1 (sut/winner [[0 0 -1]
+                           [0 1 -1]
+                           [0 1 -1]])))
+    (is (= -1 (sut/winner [[-1 0 -1]
+                           [-1 -1 0]
+                           [-1 -1 0]])))))
 
 ;; TODO Add test of invalid state of board
 
@@ -121,3 +129,12 @@
                            [0 -1 0]
                            [-1 0 -1]])))))
 
+(deftest no-winner
+  (is (= :no-winner
+         (sut/winner [[-1 1 -1]
+                      [1 -1 1]
+                      [1 -1 1]])))
+  (is (= :no-winner
+         (sut/winner [[1 -1 1]
+                      [1 -1 1]
+                      [-1 1 -1]]))))

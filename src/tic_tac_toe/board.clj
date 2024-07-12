@@ -67,10 +67,11 @@
       (some #{(- n)} col-sums)
       -1
 
+      ;; check diagonals
       (some #{n} [diagonal-sum anti-diagonal-sum])
       1
 
       (some #{(- n)} [diagonal-sum anti-diagonal-sum])
       -1
 
-      :else nil)))
+      :else :no-winner)))
