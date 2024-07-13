@@ -5,22 +5,15 @@
 (deftest board-test
   (testing "new board"
     (is (= (sut/board 2)
-           [[0 0]
-            [0 0]]))))
+           [[nil nil]
+            [nil nil]]))))
 
 (deftest default-board-test
-  (testing "default board of size 3x3 0's"
+  (testing "default board of size 3x3 nil's"
     (is (= sut/default-board
-           [[0 0 0]
-            [0 0 0]
-            [0 0 0]]))))
-
-(deftest sum-test
-  (testing "returns sum of rows from a board"
-    (is (= '(0 3 -3)
-           (sut/sum-row [[0 0 0]
-                         [1 1 1]
-                         [-1 -1 -1]])))))
+           [[nil nil nil]
+            [nil nil nil]
+            [nil nil nil]]))))
 
 (deftest transpose-test
   (testing "transpose board"
@@ -51,16 +44,16 @@
 (deftest diagonals-test
   (testing "returns diagonal items"
     (is (= '(1 2 3)
-           (sut/diagonals [[1 0 -1]
-                           [0 2 0]
+           (sut/diagonals [[1 nil -1]
+                           [nil 2 nil]
                            [1 -1 3]])))))
 
 (deftest anti-diagonals-test
   (testing "returns anti diagonal items"
     (is (= '(1 2 3)
-           (sut/anti-diagonals [[0 0 3]
-                                [0 2 0]
-                                [1 -1 0]])))))
+           (sut/anti-diagonals [[nil nil 3]
+                                [nil 2 nil]
+                                [1 -1 nil]])))))
 
 (deftest winner-test
   (testing "no winner for default board"

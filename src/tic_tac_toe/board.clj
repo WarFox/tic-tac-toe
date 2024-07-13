@@ -7,7 +7,7 @@
 (defn board
   "Returns a nxn matrix filled with 0's"
   [n]
-  (->> (repeat n 0)
+  (->> (repeat n nil)
        (into [])
        (repeat n)
        (into [])))
@@ -17,7 +17,7 @@
 (defn sum-row
   "Returns sum of rows as list"
   [board]
-  (map #(reduce + %) board))
+  (map #(reduce + (filter some? %)) board))
 
 (defn transpose
   "Returns transpose of the board. Rows become columns and columns becomes rows"
