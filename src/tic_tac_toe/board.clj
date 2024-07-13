@@ -1,5 +1,5 @@
 (ns tic-tac-toe.board
-  "1 represents X, -1 represents O and 0 represents empty.
+  "1 represents X, -1 represents O and nil represents empty.
   With this we can determine winner by summing rows, columns and diagonals.
   X wins when sum of rows, columns or diagonals is 3
   O wins when sum of rows, columns or diagonals is -3")
@@ -13,11 +13,6 @@
        (into [])))
 
 (def default-board (board 3))
-
-(defn sum-row
-  "Returns sum of rows as list"
-  [board]
-  (map #(reduce + (filter some? %)) board))
 
 (defn transpose
   "Returns transpose of the board. Rows become columns and columns becomes rows"
@@ -44,34 +39,40 @@
     (map (fn [i] (get-cell board (- n i 1) i))
          (range n))))
 
+(defn row-winner
+  "Returns the row wise winner of a board, else nil"
+  [board]
+  (reduce (fn [_ row]
+            (when (apply = row)  ;; true if all values are same in row 
+              (reduced (first row)))) ;; stop the reduction operation and return
+          []
+          board))
+
+(defn column-winner
+  "Returns the column wise winner of the board, else nil"
+  [board]
+  (row-winner (transpose board)))
+
+(defn diagonal-winner
+  "Returns the diagonal wise winner of the board, else nil"
+  [board]
+  (let [items (diagonals board)]
+    (when (apply = items)
+      (first items))))
+
+(defn anti-diagonal-winner
+  "Returns the anti-diagonal wise winner of the board, else nil"
+  [board]
+  (let [items (anti-diagonals board)]
+    (when (apply = items)
+      (first items))))
+
 (defn winner
   "Returns winner if there is a winner else returns nil"
   [board]
-  (let [row-sums          (sum-row board)
-        col-sums          (sum-row (transpose board))
-        diagonal-sum      (reduce + (diagonals board))
-        anti-diagonal-sum (reduce + (anti-diagonals board))
-        n                 (count board)]
-    (cond
-      ;; check rows
-      (some #{n} row-sums)
-      1
-
-      (some #{(- n)} row-sums)
-      -1
-
-      ;; check colums
-      (some #{n} col-sums)
-      1
-
-      (some #{(- n)} col-sums)
-      -1
-
-      ;; check diagonals
-      (some #{n} [diagonal-sum anti-diagonal-sum])
-      1
-
-      (some #{(- n)} [diagonal-sum anti-diagonal-sum])
-      -1
-
-      :else :no-winner)))
+  (or
+   (row-winner board)
+   (column-winner board)
+   (diagonal-winner board)
+   (anti-diagonal-winner board)
+   :no-winner))
