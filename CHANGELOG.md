@@ -17,23 +17,19 @@ All notable changes to this project will be documented in this file. This change
 * re-order tests to same order as their functions ([9da6c21](https://github.com/WarFox/tic-tac-toe/commit/9da6c2197dea8ba736806bfd35bd63b8f0efc9d2))
 
 ## [Unreleased]
-### Changed
-- Add a new arity to `make-widget-async` to provide a different widget shape.
 
-## [0.1.1] - 2024-07-12
-### Changed
-- Documentation on how to make the widgets.
+See unreleased changes [here](https://github.com/Warfox/tic-tac-toe/compare/v1.0.0...HEAD)
 
-### Removed
-- `make-widget-sync` - we're all async, all the time.
+## Pre Release
 
-### Fixed
-- Fixed widget maker to keep working when daylight savings switches over.
+- add linting with clj-kondo
+- linting Update readme and add image
+- add test cases for :no-winner scenarios
+- add logic for checking winner diagonally
+- add logic for checking winner vertically
+- update logic to check winner for -1; -1 wins when sum is -3
+- check winner in rows; 1 is winner if sum is 3
+- add default board
+- add github workflow for running tests
 
-## 0.1.0 - 2024-07-12
-### Added
-- Files from the new template.
-- Widget maker public API - `make-widget-sync`.
-
-[Unreleased]: https://github.com/Warfox/tic-tac-toe/compare/0.1.1...HEAD
-[0.1.1]: https://github.com/WarFox/tic-tac-toe/compare/0.1.0...0.1.1
+[Unreleased]: https://github.com/Warfox/tic-tac-toe/compare/v1.0.0...HEAD
