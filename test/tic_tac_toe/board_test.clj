@@ -23,58 +23,13 @@
                          [-1 -1 -1]])))))
 
 (deftest transpose-test
- (testing "transpose board"
-   (is (= [[1 4 7]
-           [2 5 8]
-           [3 6 9]]
-          (sut/transpose [[1 2 3]
-                          [4 5 6]
-                          [7 8 9]])))))
-
-(deftest winner-test
-  (testing "no winner for default board"
-    (is (= :no-winner
-           (sut/winner sut/default-board))))
-
-  (testing "1 wins horizontal"
-    (is (= 1
-           (sut/winner [[1  1 1]
-                        [0 -1 0]
-                        [-1 0 -1]])))
-
-    (is (= 1
-           (sut/winner [[0 -1 0]
-                        [1 1 1]
-                        [1 0 1]]))))
-
-  (testing "-1 wins horizontal"
-    (is (= -1 (sut/winner [[-1  -1 -1]
-                           [0 1 0]
-                           [1 0 1]])))
-
-    (is (= -1 (sut/winner [[0 1 0]
-                           [-1 -1 -1]
-                           [1 0 1]])))))
-
-(deftest winner-test-vertical
-  (testing "1 wins vertical"
-    (is (= 1 (sut/winner [[0 0 1]
-                          [0 -1 1]
-                          [0 -1 1]])))
-
-    (is (= 1 (sut/winner [[1 0 -1]
-                          [1 -1 0]
-                          [1 -1 0]]))))
-
-  (testing "-1 wins vertical"
-    (is (= -1 (sut/winner [[0 0 -1]
-                           [0 1 -1]
-                           [0 1 -1]])))
-    (is (= -1 (sut/winner [[-1 0 -1]
-                           [-1 -1 0]
-                           [-1 -1 0]])))))
-
-;; TODO Add test of invalid state of board
+  (testing "transpose board"
+    (is (= [[1 4 7]
+            [2 5 8]
+            [3 6 9]]
+           (sut/transpose [[1 2 3]
+                           [4 5 6]
+                           [7 8 9]])))))
 
 (deftest get-cell
   (testing "can get a cell correctly"
@@ -93,41 +48,96 @@
       (is (= 8 (sut/get-cell board 2 1)))
       (is (= 9 (sut/get-cell board 2 2))))))
 
-(deftest diagonal-test
-  (testing "diagonal items"
-    (is (= '(1 1 0)
+(deftest diagonals-test
+  (testing "returns diagonal items"
+    (is (= '(1 2 3)
            (sut/diagonals [[1 0 -1]
-                           [0 1 0]
-                           [1 -1 0]])))))
+                           [0 2 0]
+                           [1 -1 3]])))))
 
-(deftest anti-diagonal-test
-  (testing "anti diagonal indexes"
-    (is (= '(-1 1 -1)
-           (sut/anti-diagonals [[0 0 -1]
-                                [0 1 0]
-                                [-1 -1 0]])))))
+(deftest anti-diagonals-test
+  (testing "returns anti diagonal items"
+    (is (= '(1 2 3)
+           (sut/anti-diagonals [[0 0 3]
+                                [0 2 0]
+                                [1 -1 0]])))))
+
+(deftest winner-test
+  (testing "no winner for default board"
+    (is (= :no-winner
+           (sut/winner sut/default-board))))
+
+  (testing "1 wins horizontal"
+    (is (= 1
+           (sut/winner [[1  1 1]
+                        [0 -1 0]
+                        [-1 0 -1]])))
+
+    (is (= 1
+           (sut/winner [[0 -1 0]
+                        [1 1 1]
+                        [1 0 1]]))))
+
+  (testing "-1 wins horizontal"
+    (is (= -1
+           (sut/winner [[-1  -1 -1]
+                        [0 1 0]
+                        [1 0 1]])))
+
+    (is (= -1
+           (sut/winner [[0 1 0]
+                        [-1 -1 -1]
+                        [1 0 1]])))))
+
+(deftest winner-test-vertical
+  (testing "1 wins vertical"
+    (is (= 1
+           (sut/winner [[0 0 1]
+                        [0 -1 1]
+                        [0 -1 1]])))
+
+    (is (= 1
+           (sut/winner [[1 0 -1]
+                        [1 -1 0]
+                        [1 -1 0]]))))
+
+  (testing "-1 wins vertical"
+    (is (= -1
+           (sut/winner [[0 0 -1]
+                        [0 1 -1]
+                        [0 1 -1]])))
+    (is (= -1
+           (sut/winner [[-1 0 -1]
+                        [-1 -1 0]
+                        [-1 -1 0]])))))
+
+;; TODO Add test of invalid state of board
 
 (deftest winner-test-diagonal
   (testing "1 wins diagonal"
-    (is (= 1 (sut/winner [[1 0 -1]
-                          [0 1 0]
-                          [1 -1 1]]))))
+    (is (= 1
+           (sut/winner [[1 0 -1]
+                        [0 1 0]
+                        [1 -1 1]]))))
 
   (testing "-1 wins diagonal"
-    (is (= -1 (sut/winner [[-1 0 -1]
-                           [0 -1 0]
-                           [1 -1 -1]])))))
+    (is (= -1
+           (sut/winner [[-1 0 -1]
+                        [0 -1 0]
+                        [1 -1 -1]])))))
 
 (deftest winner-test-anti-diagonal
   (testing "1 wins anti-diagonal"
-    (is (= 1 (sut/winner [[1 0 1]
-                          [0 1 0]
-                          [1 -1 -1]]))))
+    (is (= 1
+           (sut/winner [[1 0 1]
+                        [0 1 0]
+                        [1 -1 -1]]))))
 
   (testing "-1 wins anti-diagonal"
-    (is (= -1 (sut/winner [[0 0 -1]
-                           [0 -1 0]
-                           [-1 0 -1]])))))
+    (is (= -1
+           (sut/winner [[0 0 -1]
+                        [0 -1 0]
+                        [-1 0 -1]])))))
 
 (deftest no-winner
   (is (= :no-winner
