@@ -14,7 +14,7 @@ Tic Tac Toe game written in Clojure
 ** CI
 
 Continuous integration is setup using GitHub Actions. When a new
-commit is pushed to any branch =lein tests= are run.
+commit is pushed to any branch =lein test= and =linter= is run.
 
 ** License
 
