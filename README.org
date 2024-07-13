@@ -2,39 +2,23 @@
 
 Tic Tac Toe game written in Clojure
 
-** Installation
+#+caption: Tic Tac Toe
+[[file:doc/tic_tac_toe.svg]]
 
-Download from http://example.com/FIXME.
+** Run Tests
 
-** Usage
+#+begin_src sh
+  lein test
+#+end_src
 
-FIXME: explanation
+** CI
 
-#+BEGIN_EXAMPLE
-  $ java -jar tic-tac-toe-0.1.0-standalone.jar [args]
-#+END_EXAMPLE
-
-** Options
-
-FIXME: listing of options this app accepts.
-
-** Examples
-
-...
-
-*** Bugs
-
-...
-
-*** Any Other Sections
-
-*** That You Think
-
-*** Might be Useful
+Continuous integration is setup using GitHub Actions. When a new
+commit is pushed to any branch =lein tests= are run.
 
 ** License
 
-Copyright © 2024 FIXME
+Copyright © 2024 Deepu Mohan Puthrote
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
