@@ -5,7 +5,7 @@
   O wins when sum of rows, columns or diagonals is -3")
 
 (defn board
-  "Returns a nxn matrix filled with 0's"
+  "Returns a nxn matrix filled with nil's"
   [n]
   (->> (repeat n nil)
        (into [])
@@ -43,8 +43,10 @@
   "Returns the row wise winner of a board, else nil"
   [board]
   (reduce (fn [_ row]
-            (when (apply = row)  ;; true if all values are same in row 
-              (reduced (first row)))) ;; stop the reduction operation and return
+            ;; when all values are same in row and not nil
+            (when (and (apply = row) (some? (first row)))
+              ;; stop the reduction operation and return
+              (reduced (first row))))
           []
           board))
 
@@ -68,7 +70,7 @@
       (first items))))
 
 (defn winner
-  "Returns winner if there is a winner else returns nil"
+  "Returns winner if there is a winner else returns :no-winner"
   [board]
   (or
    (row-winner board)
