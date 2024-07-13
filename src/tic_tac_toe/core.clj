@@ -2,5 +2,5 @@
   (:gen-class))
 
 (defn -main
-  [& args]
+  [& _]
   (println "Tic Tac Toe"))
