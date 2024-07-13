@@ -59,7 +59,7 @@
   (testing "returns the row winner of a board, else nil"
     (is (= :o
            (sut/row-winner [[:o :o :o]
-                            [:o nil nil]
+                            [:x nil nil]
                             [:o nil :o]])))
     (is (= :o
            (sut/row-winner [[nil :o nil]
@@ -69,21 +69,31 @@
            (sut/row-winner [[nil :o :o]
                             [:o nil nil]
                             [:o :o :o]])))
-    (is (= :o
-           (sut/row-winner [[nil :o :o]
-                            [nil nil nil]
-                            [:o :o :o]])))
+    (is (= :x
+           (sut/row-winner [[:x :o :o]
+                            [:x :x :x]
+                            [:o :o :x]])))
     (is (nil?
          (sut/row-winner [[nil :o :o]
                           [nil :o nil]
-                          [:o nil :o]])))))
+                          [:o nil :o]]))))
+
+  (testing "full nil rows are ignored"
+    (is (= :o
+           (sut/row-winner [[nil :o :o]
+                            [nil nil nil]
+                            [:o :o :o]])))))
 
 (deftest column-winner-test
   (testing "returns the column winner of a board, else nil"
     (is (= :o
            (sut/column-winner [[:o :o nil]
-                               [:o :o :o]
+                               [:o :x :o]
                                [:o nil :o]])))
+    (is (= :x
+           (sut/column-winner [[:x :o :x]
+                               [:x :x nil]
+                               [:x nil :o]])))
     (is (nil?
          (sut/column-winner [[nil :o :o]
                              [nil :o nil]
@@ -95,10 +105,20 @@
            (sut/diagonal-winner [[:o nil :o]
                                  [nil :o nil]
                                  [nil :o :o]])))
+    (is (= :x
+           (sut/diagonal-winner [[:x nil :o]
+                                 [nil :x nil]
+                                 [nil :o :x]])))
     (is (nil?
          (sut/diagonal-winner [[:o nil :o]
                                [:o nil nil]
-                               [nil :o :o]])))))
+                               [nil :o :o]]))))
+
+  (testing "full nil diagonal returns nil"
+    (is (nil?
+         (sut/diagonal-winner [[nil nil :o]
+                               [:o nil nil]
+                               [nil :o nil]])))))
 
 (deftest anti-diagonal-winner-test
   (testing "returns the anti-diagonal winner of a board, else nil"
@@ -106,6 +126,10 @@
            (sut/anti-diagonal-winner [[:o nil :o]
                                       [nil :o nil]
                                       [:o :o nil]])))
+    (is (= :x
+           (sut/anti-diagonal-winner [[:o nil :x]
+                                      [nil :x nil]
+                                      [:x :o nil]])))
     (is (nil?
          (sut/anti-diagonal-winner [[:o nil :o]
                                     [:o nil nil]
@@ -121,22 +145,32 @@
            (sut/winner [[:o  :o :o]
                         [nil :x nil]
                         [:x nil :x]])))
-
     (is (= :o
            (sut/winner [[nil :x nil]
                         [:o :o :o]
-                        [:o nil :o]]))))
+                        [:o nil :o]])))
+    (is (= :o
+           (sut/winner [[nil :x nil]
+                        [:o nil :o]
+                        [:o :o :o]]))))
 
   (testing "X wins horizontal"
     (is (= :x
            (sut/winner [[:x  :x :x]
                         [nil :o nil]
                         [:o nil :o]])))
-
     (is (= :x
            (sut/winner [[nil :o nil]
                         [:x :x :x]
-                        [:o nil :o]])))))
+                        [:o nil :o]])))
+    (is (= :x
+           (sut/winner [[nil :o nil]
+                        [:o nil :o]
+                        [:x :x :x]])))
+    (is (= :x
+           (sut/winner [[nil nil nil]
+                        [:o nil :o]
+                        [:x :x :x]])))))
 
 (deftest winner-test-vertical
   (testing "O wins vertical"
@@ -144,7 +178,10 @@
            (sut/winner [[nil nil :o]
                         [nil :x :o]
                         [nil :x :o]])))
-
+    (is (= :o
+           (sut/winner [[nil :o :x]
+                        [nil :o nil]
+                        [nil :o nil]])))
     (is (= :o
            (sut/winner [[:o nil :x]
                         [:o :x nil]
@@ -158,7 +195,11 @@
     (is (= :x
            (sut/winner [[:x nil :x]
                         [:x :x nil]
-                        [:x :x nil]])))))
+                        [:x :x nil]])))
+    (is (= :x
+           (sut/winner [[nil :x :x]
+                        [nil :x nil]
+                        [nil :x nil]])))))
 
 ;; TODO Add test of invalid state of board
 
@@ -173,7 +214,13 @@
     (is (= :x
            (sut/winner [[:x nil :x]
                         [nil :x nil]
-                        [:o :x :x]])))))
+                        [:o :x :x]]))))
+
+  (testing "nils do not win diagonal"
+    (is (= :no-winner
+           (sut/winner [[nil nil :x]
+                        [nil nil :x]
+                        [:o :x nil]])))))
 
 (deftest winner-test-anti-diagonal
   (testing "O wins anti-diagonal"
@@ -186,9 +233,19 @@
     (is (= :x
            (sut/winner [[nil nil :x]
                         [nil :x nil]
-                        [:x nil :x]])))))
+                        [:x nil :x]]))))
+
+  (testing "nils do not win anti-diagonal"
+    (is (= :no-winner
+           (sut/winner [[nil :o nil]
+                        [:o nil :x]
+                        [nil nil :x]])))))
 
 (deftest no-winner
+  (is (= :no-winner
+         (sut/winner [[nil :o :x]
+                      [:o :x :o]
+                      [nil :x :o]])))
   (is (= :no-winner
          (sut/winner [[:x :o :x]
                       [:o :x :o]
