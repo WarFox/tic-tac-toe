@@ -1,8 +1,7 @@
 (ns tic-tac-toe.board
-  "1 represents X, -1 represents O and nil represents empty.
-  With this we can determine winner by summing rows, columns and diagonals.
-  X wins when sum of rows, columns or diagonals is 3
-  O wins when sum of rows, columns or diagonals is -3")
+  ":x represents X, :o represents O and nil represents empty.
+  With this we can determine winner by checking if all symbols are equals
+  in a row, column or diagonal except nils.")
 
 (defn board
   "Returns a nxn matrix filled with nil's"

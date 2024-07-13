@@ -44,157 +44,156 @@
 (deftest diagonals-test
   (testing "returns diagonal items"
     (is (= '(1 2 3)
-           (sut/diagonals [[1 nil -1]
-                           [nil 2 nil]
-                           [1 -1 3]])))))
+           (sut/diagonals [[1 0 1]
+                           [0 2 0]
+                           [1 1 3]])))))
 
 (deftest anti-diagonals-test
   (testing "returns anti diagonal items"
     (is (= '(1 2 3)
-           (sut/anti-diagonals [[nil nil 3]
-                                [nil 2 nil]
-                                [1 -1 nil]])))))
+           (sut/anti-diagonals [[1 0 3]
+                                [0 2 0]
+                                [1 1 0]])))))
 
 (deftest row-winner-test
   (testing "returns the row winner of a board, else nil"
-    (is (= 1
-           (sut/row-winner [[1 1 1]
-                            [1 nil nil]
-                            [1 nil 1]])))
-    (is (= 1
-           (sut/row-winner [[nil 1 0]
-                            [1 1 1]
-                            [1 nil 1]])))
-    (is (= 1
-           (sut/row-winner [[nil 1 1]
-                            [1 nil nil]
-                            [1 1 1]])))
-    (is (= 1
-           (sut/row-winner [[nil 1 1]
+    (is (= :o
+           (sut/row-winner [[:o :o :o]
+                            [:o nil nil]
+                            [:o nil :o]])))
+    (is (= :o
+           (sut/row-winner [[nil :o nil]
+                            [:o :o :o]
+                            [:o nil :o]])))
+    (is (= :o
+           (sut/row-winner [[nil :o :o]
+                            [:o nil nil]
+                            [:o :o :o]])))
+    (is (= :o
+           (sut/row-winner [[nil :o :o]
                             [nil nil nil]
-                            [1 1 1]])))
+                            [:o :o :o]])))
     (is (nil?
-         (sut/row-winner [[nil 1 1]
-                          [nil 1 0]
-                          [1 0 1]])))))
+         (sut/row-winner [[nil :o :o]
+                          [nil :o nil]
+                          [:o nil :o]])))))
 
 (deftest column-winner-test
   (testing "returns the column winner of a board, else nil"
-    (is (= 1
-           (sut/column-winner [[1 1 0]
-                               [1 1 1]
-                               [1 0 1]])))
+    (is (= :o
+           (sut/column-winner [[:o :o nil]
+                               [:o :o :o]
+                               [:o nil :o]])))
     (is (nil?
-         (sut/column-winner [[0 1 1]
-                             [0 1 0]
-                             [1 0 1]])))))
+         (sut/column-winner [[nil :o :o]
+                             [nil :o nil]
+                             [:o nil :o]])))))
 
 (deftest diagonal-winner-test
   (testing "returns the diagonal winner of a board, else nil"
-    (is (= 1
-           (sut/diagonal-winner [[1 0 1]
-                                 [0 1 0]
-                                 [0 1 1]])))
+    (is (= :o
+           (sut/diagonal-winner [[:o nil :o]
+                                 [nil :o nil]
+                                 [nil :o :o]])))
     (is (nil?
-         (sut/diagonal-winner [[1 0 1]
-                               [1 0 0]
-                               [0 1 1]])))))
+         (sut/diagonal-winner [[:o nil :o]
+                               [:o nil nil]
+                               [nil :o :o]])))))
 
 (deftest anti-diagonal-winner-test
   (testing "returns the anti-diagonal winner of a board, else nil"
-    (is (= 1
-           (sut/anti-diagonal-winner [[1 0 1]
-                                      [0 1 0]
-                                      [1 1 0]])))
+    (is (= :o
+           (sut/anti-diagonal-winner [[:o nil :o]
+                                      [nil :o nil]
+                                      [:o :o nil]])))
     (is (nil?
-         (sut/anti-diagonal-winner [[1 0 1]
-                                    [1 0 0]
-                                    [0 1 1]])))))
+         (sut/anti-diagonal-winner [[:o nil :o]
+                                    [:o nil nil]
+                                    [nil :o :o]])))))
 
 (deftest winner-test
   (testing "no winner for default board"
     (is (= :no-winner
            (sut/winner sut/default-board))))
 
-  (testing "1 wins horizontal"
-    (is (= 1
-           (sut/winner [[1  1 1]
-                        [nil -1 nil]
-                        [-1 0 -1]])))
+  (testing "O wins horizontal"
+    (is (= :o
+           (sut/winner [[:o  :o :o]
+                        [nil :x nil]
+                        [:x nil :x]])))
 
-    (is (= 1
-           (sut/winner [[nil -1 nil]
-                        [1 1 1]
-                        [1 nil 1]]))))
+    (is (= :o
+           (sut/winner [[nil :x nil]
+                        [:o :o :o]
+                        [:o nil :o]]))))
 
-  (testing "-1 wins horizontal"
-    (is (= -1
-           (sut/winner [[-1  -1 -1]
-                        [nil 1 nil]
-                        [1 0 1]])))
+  (testing "X wins horizontal"
+    (is (= :x
+           (sut/winner [[:x  :x :x]
+                        [nil :o nil]
+                        [:o nil :o]])))
 
-    (is (= -1
-           (sut/winner [[nil 1 nil]
-                        [-1 -1 -1]
-                        [1 nil 1]])))))
+    (is (= :x
+           (sut/winner [[nil :o nil]
+                        [:x :x :x]
+                        [:o nil :o]])))))
 
 (deftest winner-test-vertical
-  (testing "1 wins vertical"
-    (is (= 1
-           (sut/winner [[nil nil 1]
-                        [nil -1 1]
-                        [nil -1 1]])))
+  (testing "O wins vertical"
+    (is (= :o
+           (sut/winner [[nil nil :o]
+                        [nil :x :o]
+                        [nil :x :o]])))
 
-    (is (= 1
-           (sut/winner [[1 nil -1]
-                        [1 -1 nil]
-                        [1 -1 nil]]))))
+    (is (= :o
+           (sut/winner [[:o nil :x]
+                        [:o :x nil]
+                        [:o :x nil]]))))
 
-  (testing "-1 wins vertical"
-    (is (= -1
-           (sut/winner [[nil nil -1]
-                        [nil 1 -1]
-                        [nil 1 -1]])))
-    (is (= -1
-           (sut/winner [[-1 nil -1]
-                        [-1 -1 nil]
-                        [-1 -1 nil]])))))
+  (testing "X wins vertical"
+    (is (= :x
+           (sut/winner [[nil nil :x]
+                        [nil :o :x]
+                        [nil :o :x]])))
+    (is (= :x
+           (sut/winner [[:x nil :x]
+                        [:x :x nil]
+                        [:x :x nil]])))))
 
 ;; TODO Add test of invalid state of board
 
 (deftest winner-test-diagonal
-  (testing "1 wins diagonal"
-    (is (= 1
-           (sut/winner [[1 nil -1]
-                        [nil 1 nil]
-                        [1 -1 1]]))))
+  (testing "O wins diagonal"
+    (is (= :o
+           (sut/winner [[:o nil :x]
+                        [nil :o nil]
+                        [:o :x :o]]))))
 
-  (testing "-1 wins diagonal"
-    (is (= -1
-           (sut/winner [[-1 nil -1]
-                        [nil -1 nil]
-                        [1 -1 -1]])))))
+  (testing "X wins diagonal"
+    (is (= :x
+           (sut/winner [[:x nil :x]
+                        [nil :x nil]
+                        [:o :x :x]])))))
 
 (deftest winner-test-anti-diagonal
-  (testing "1 wins anti-diagonal"
-    (is (= 1
-           (sut/winner [[1 nil 1]
-                        [nil 1 nil]
-                        [1 -1 -1]]))))
+  (testing "O wins anti-diagonal"
+    (is (= :o
+           (sut/winner [[:o nil :o]
+                        [nil :o nil]
+                        [:o :x :x]]))))
 
-  (testing "-1 wins anti-diagonal"
-    (is (= -1
-           (sut/winner [[nil nil -1]
-                        [nil -1 nil]
-                        [-1 nil -1]])))))
+  (testing "X wins anti-diagonal"
+    (is (= :x
+           (sut/winner [[nil nil :x]
+                        [nil :x nil]
+                        [:x nil :x]])))))
 
 (deftest no-winner
   (is (= :no-winner
-         (sut/winner [[-1 1 -1]
-                      [1 -1 1]
-                      [1 -1 1]])))
+         (sut/winner [[:x :o :x]
+                      [:o :x :o]
+                      [:o :x :o]])))
   (is (= :no-winner
-         (sut/winner [[1 -1 1]
-                      [1 -1 1]
-                      [-1 1 -1]]))))
-
+         (sut/winner [[:o :x :o]
+                      [:o :x :o]
+                      [:x :o :x]]))))
