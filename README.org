@@ -5,16 +5,53 @@ Tic Tac Toe game written in Clojure
 #+caption: Tic Tac Toe
 [[file:doc/tic_tac_toe.svg]]
 
+** Local Setup
+
+#+begin_src sh
+  git clone git@github.com:WarFox/tic-tac-toe.git
+
+  cd tic-tac-toe
+#+end_src
+
+Make sure you have [[https://leiningen.org/][lein]] and [[https://github.com/clj-kondo/clj-kondo][clj-kondo]] installed
+
+#+begin_src sh
+   brew install borkdude/brew/clj-kondo
+   brew install leiningen
+#+end_src
+
 ** Run Tests
 
 #+begin_src sh
   lein test
 #+end_src
 
+** Run Linting
+
+#+begin_src sh
+  clj-kondo --lint src test
+#+end_src
+
 ** CI
 
 Continuous integration is setup using GitHub Actions. When a new
 commit is pushed to any branch =lein test= and =linter= is run.
+
+Tests is setup using =clojure.test= and linting is setup using
+[[https://github.com/clj-kondo/clj-kondo/][clj-kondo]].
+
+** Release
+
+Automated release and CHANGELOG is setup using Google's
+[[https://github.com/googleapis/release-please-action][releas-please-action]].
+
+When branch is merged to =main=, =release-please= will create a new
+release branch based on the changes included in the PR. If a release
+branch already exists, then release notes and CHANGELOG is
+automatically updated with the new changes.
+
+For this to work we follow [[https://www.conventionalcommits.org/en/v1.0.0/][conventional commits]] and write good commit
+messages.
 
 ** License
 
