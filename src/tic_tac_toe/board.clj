@@ -38,14 +38,21 @@
     (map (fn [i] (get-cell board (- n i 1) i))
          (range n))))
 
+(defn find-winner
+  [row]
+  (->> row
+       (partition-by identity)
+       (map (juxt first count))
+       (filter (fn [[_ c]] (>= c 3)))
+       ffirst))
+
 (defn row-winner
   "Returns the row wise winner of a board, else nil"
   [board]
   (reduce (fn [_ row]
             ;; when all values are same in row and not nil
-            (when (and (apply = row) (some? (first row)))
-              ;; stop the reduction operation and return
-              (reduced (first row))))
+            (when-let [result (find-winner row)]
+              (reduced result)))
           []
           board))
 
@@ -58,15 +65,13 @@
   "Returns the diagonal wise winner of the board, else nil"
   [board]
   (let [items (diagonals board)]
-    (when (apply = items)
-      (first items))))
+    (find-winner items)))
 
 (defn anti-diagonal-winner
   "Returns the anti-diagonal wise winner of the board, else nil"
   [board]
   (let [items (anti-diagonals board)]
-    (when (apply = items)
-      (first items))))
+    (find-winner items)))
 
 (defn winner
   "Returns winner if there is a winner else returns :no-winner"

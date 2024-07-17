@@ -254,3 +254,37 @@
          (sut/winner [[:o :x :o]
                       [:o :x :o]
                       [:x :o :x]]))))
+
+(deftest bigger-board
+  (let [big-board (sut/board 4)]
+    (is (= :x
+           (sut/winner [[:x :x :o :x]
+                        [:o :x :x :o]
+                        [:o :x :x :x]
+                        [:o :o :x :x]])))
+
+    (is (= :x
+           (sut/winner [[:x :x :x :x]
+                        [:o :x :x :x]
+                        [:x :x :o :x]
+                        [:o :o :x :o]])))
+    (is (= :no-winner
+           (sut/winner big-board)))))
+
+(deftest connect-4-test
+  (is (= :x
+         (sut/winner [[:o :x :x :x]])))
+
+  (testing "diagonal"
+    (is (= :o
+           (sut/winner [[:o :x :o :x]
+                        [:x :o nil :x]
+                        [:o :x :o nil]
+                        [:x :o :x nil]]))))
+
+  (testing "anti-diagonal"
+    (is (= :x
+           (sut/winner [[:o :x :o :x]
+                        [:x nil :x :x]
+                        [:o :x :o nil]
+                        [:x :o :x nil]])))))
