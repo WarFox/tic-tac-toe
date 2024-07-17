@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [1.1.0](https://github.com/WarFox/tic-tac-toe/compare/v1.0.0...v1.1.0) (2024-07-17)
+
+
+### Features
+
+* add logic for doing connect-4 ([4c8f536](https://github.com/WarFox/tic-tac-toe/commit/4c8f536e06a62169fe3206b8fdf9683594b0a235))
+
 ## 1.0.0 (2024-07-13)
 
 
